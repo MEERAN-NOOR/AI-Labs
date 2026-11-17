@@ -1,5 +1,7 @@
 # Lab 2: Uninformed Search — BFS and DFS on a 2D Maze
 
+## GOOGLE COLAB LINK FOR LAB 2 https://colab.research.google.com/drive/1-sJ5obp-MQCA7cvgprcv9aG_Q_P8y6vh#scrollTo=CkSTO9DlPWrJ
+
 ## Exersice 1 : Compare BFS and DFS
 Both algorithms were tested using the same maze, initial position, destination, and movement sequence to ensure a fair comparison.
 
