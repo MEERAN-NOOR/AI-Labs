@@ -1,5 +1,7 @@
 # Lab 01: Knowledge-Based Systems 
 
+## GOOGLE COLAB LINK FOR LAB 1 https://colab.research.google.com/drive/14mcByeMK4jgmucjIn6L6JM9gg6xN9f6a#scrollTo=pTRzf-i3IeBv
+
 ## Exercise 1: Degree Honors Rule
 
 ### Objective
