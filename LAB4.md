@@ -1,5 +1,6 @@
 # Lab 4: Hill-Climbing Search with the N-Queens Problem
 
+## GOOGLE COLAB LINK FOR LAB 4: https://colab.research.google.com/drive/1NxtNyhMpaUMIUaNUhlRnrl9o3bEC66Gh?usp=sharing
 ## TASK 1
 Create the state and print it
 ```python
@@ -558,44 +559,134 @@ This depends on the experiment. If all five runs find a solution, then none reac
 
 **5. Why can Random-Restart improve the probability of success without guaranteeing success within a fixed number of attempts?**
 
-Random-Restart tries different initial states, increasing the chances of finding a solution. However, there is no guarantee that a successful initial state will be selected within 100 attempts. Therefore, it improves the probability of success but cannot guarantee it.\[
-8 \times (8-1) = 8 \times 7 = 56
-\]
-
-n unsuccessful initial state. More restarts increase the probability of finding a solution, but success within a fixed number of attempts is not guaranteed.
+Random-Restart tries different initial states, increasing the chances of finding a solution. However, there is no guarantee that a successful initial state will be selected within 100 attempts. Therefore, it improves the probability of success but cannot guarantee it. More restarts increase the probability of finding a solution, but success within a fixed number of attempts is not guaranteed.
 
 ## Lab Questions
 
-Question 1: What is the purpose of the evaluation function in Hill-Climbing?
+**Question 1: What is the purpose of the evaluation function in Hill-Climbing?**
 
 The evaluation function measures how good a particular state is. In our N-Queens problem, it calculates the number of conflicts between queens. It helps Hill-Climbing select a better neighboring state.
 
-Question 2: Why is an evaluation score of zero the best result in our N-Queens implementation?
+**Question 2: Why is an evaluation score of zero the best result in our N-Queens implementation?**
+
 An evaluation score of zero means there are no conflicts between any queens. This means no two queens attack each other, and a valid N-Queens solution has been found.
 
-Question 3: What is the difference between a local maximum and a global maximum?
-A local maximum is a state that has a better evaluation score than all its neighboring states, but it may not be the best possible state.
+**Question 3: What is the difference between a local maximum and a global maximum?**
 
+A local maximum is a state that has a better evaluation score than all its neighboring states, but it may not be the best possible state.
 A global maximum is the best possible state in the entire search space. In our N-Queens problem, an evaluation score of zero represents the global maximum.
 
-Question 4: Why can basic Hill-Climbing stop without finding a solution even when a solution exists?
+**Question 4: Why can basic Hill-Climbing stop without finding a solution even when a solution exists?**
+
 Basic Hill-Climbing can stop when it reaches a local maximum where no neighboring state has a better score. It cannot move to a worse state to explore other possibilities, even if a valid solution exists elsewhere.
 
-Question 5: Does reaching a local maximum always mean that the algorithm has failed? Explain.
+**Question 5: Does reaching a local maximum always mean that the algorithm has failed? Explain.**
+
 No. Reaching a local maximum does not always mean failure. If the local maximum is also the global maximum, the algorithm has successfully found the solution. However, if conflicts still exist, it has stopped without finding a valid solution.
 
-Question 6: For N = 8, how many neighbors does each state have in our implementation?
+**Question 6: For N = 8, how many neighbors does each state have in our implementation?**
+
 Each state has 56 neighbors.
 
 
-Question 7: What does the evaluation-score graph tell you about the behavior of Hill-Climbing?
+**Question 7: What does the evaluation-score graph tell you about the behavior of Hill-Climbing?**
+
 The graph shows how the evaluation score changes during the search. The score increases as the algorithm moves to better states. It never decreases because the algorithm accepts only improving moves. When no better neighbor is available, the algorithm stops.
 
-Question 8: Explain probabilistic completeness in your own words.
+**Question 8: Explain probabilistic completeness in your own words.**
+
 Probabilistic completeness means that an algorithm has an increasing chance of finding a solution when it is allowed to perform more attempts. It does not guarantee success in every individual attempt, but repeated attempts can improve the probability of success.
 
-Question 9: Why does Random-Restart Hill-Climbing improve the chance of finding a solution?
+**Question 9: Why does Random-Restart Hill-Climbing improve the chance of finding a solution?**
+
 Random-Restart Hill-Climbing starts the search again from a new random initial state when the previous search gets stuck. By exploring different starting states, it increases the chances of finding a valid solution.
 
-Question 10: Does probabilistic completeness guarantee that a solution will be found within 100 restarts? Why or why not?
+**Question 10: Does probabilistic completeness guarantee that a solution will be found within 100 restarts? Why or why not?**
+
 No. Probabilistic completeness does not guarantee that a solution will be found within 100 restarts. Every restart may start from an unsuccessful initial state. More restarts increase the probability of finding a solution, but success within a fixed number of attempts is not guaranteed.
+
+## Extention Task
+
+### Code
+```python
+n = 20
+
+# Basic Hill-Climbing
+print("Basic Hill-Climbing (N = 20)")
+print("----------------------------")
+
+basic_state, basic_scores = hill_climbing(n)
+basic_conflicts = count_conflicts(basic_state)
+
+print("Final state:", basic_state)
+print("Final conflicts:", basic_conflicts)
+print("Iterations:", len(basic_scores))
+print("Solved:", basic_conflicts == 0)
+
+
+# Random-Restart Hill-Climbing
+print("\nRandom-Restart Hill-Climbing (N = 20)")
+print("-------------------------------------")
+
+restart_state, restarts, best_scores = random_restart_hill_climbing(
+    n, max_restarts=100
+)
+
+restart_conflicts = count_conflicts(restart_state)
+
+print("Final state:", restart_state)
+print("Final conflicts:", restart_conflicts)
+print("Restarts required:", restarts)
+print("Solved:", restart_conflicts == 0)
+
+```
+### Output:
+```text
+Basic Hill-Climbing (N = 20)
+----------------------------
+Final state: [11, 18, 0, 13, 5, 1, 6, 2, 16, 8, 15, 4, 19, 7, 16, 12, 6, 9, 3, 10]
+Final conflicts: 3
+Iterations: 8
+Solved: False
+
+Random-Restart Hill-Climbing (N = 20)
+-------------------------------------
+Final state: [6, 17, 15, 10, 12, 3, 5, 18, 2, 13, 11, 1, 7, 16, 0, 8, 4, 9, 14, 19]
+Final conflicts: 0
+Restarts required: 87
+Solved: True
+```
+### Comparison Table:
+
+| Messurement | Basic Hill-Climbimg | Random Restart-Hill-Climbing |
+|---:|---:|---:|
+| Board Size (N) | 20 | 20 |
+| Final Conflicts | 3 | 0 |
+| Iterations | 8 | Not Recorded |
+| Restarts Required | N/A | 87 |
+| Valid Solution Found? | No | Yes|
+
+### Comparison and discussion
+**1.Compare Basic and Random-Restart Hill-Climbing.**
+
+Basic Hill-Climbing starts from one random initial state and improves it until no better neighbor is available. It may get stuck at a local maximum without finding a solution.
+
+Random-Restart Hill-Climbing tries different random initial states whenever necessary. Therefore, it has a better chance of finding a valid solution.
+
+**2.How does the number of queens affect the search process?**
+
+As the number of queens increases, the search space becomes larger. More queens also create more possibilities for conflicts between them. Therefore, finding a valid solution can become more challenging.
+
+For N = 20, each state has:
+```text
+                                       20 * (20 - 1) = 380
+```
+neighbors.
+
+**3.How does the random initial state affect the search process?**
+
+The random initial state affects the starting number of conflicts and the path taken by Hill-Climbing. Some initial states may lead to a solution quickly, while others may get stuck at a local maximum. Random-Restart helps by trying different initial states.
+
+### Conclusion
+
+Basic Hill-Climbing may fail to find a valid solution because it can get stuck at a local maximum. Random-Restart improves the chances of finding a solution by exploring different initial states. Increasing the board size to 20 also increases the number of possible conflicts and neighboring states, making the search process more challenging.
